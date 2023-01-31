@@ -1,7 +1,6 @@
 # POS stands for part of speech
-# This app helps parse 1 web page, finds entities and POS, Values are sent to csv files
-#
-
+# This app helps parse 1 web page, finds entities and POS
+# Values are sent to csv files
 import requests
 from bs4 import BeautifulSoup
 import nltk
@@ -15,7 +14,7 @@ headers = {
 }
 
 # Scrape the website's HTML
-url = "https://dev3lop.com/data-engineering-consulting-services-austin-texas"
+url = "https://dev3lop.com/advanced-tableau-consulting-services-texas/"
 page = requests.get(url,  headers=headers)
 soup = BeautifulSoup(page.content, "html.parser")
 
@@ -48,13 +47,12 @@ entity_counts = Counter(entities)
 
 # Create a data frame from the entity_counts dictionary
 df = pd.DataFrame.from_dict(entity_counts, orient='index', columns=['Count'])
-df = df.reset_index()
-df = df.rename(columns={"index": "Entity"})
+df = df.reset_index().rename(columns={"index": "Entity"})
 
 # Sort the data frame by count in descending order
 df = df.sort_values(by='Count', ascending=False)
 
-# Define the maximum number of rows to display
+# Define the maximum number of rows to print
 max_rows = 10
 
 # Export the dataframe to a csv file
@@ -66,7 +64,6 @@ print(df.head(max_rows))
 
 # Print the sorted data frame
 #print(df.to_string())
-#print(df.apply(lambda x: x.astype(str).str[:40]).to_string)
 
 # Print the tagged tokens
 #print(tagged_tokens)
@@ -91,8 +88,7 @@ token_counts = Counter(filtered_tokens)
 #df = pd.DataFrame.from_dict(token_counts, orient='index', columns=['Count'])
 
 df = pd.DataFrame.from_dict(token_counts, orient='index', columns=['Count'])
-df = df.reset_index()
-df = df.rename(columns={"index": "Terms_POS"})
+df = df.reset_index().rename(columns={"index": "Terms_POS"})
 
 
 #df = pd.DataFrame.from_dict(token_counts, orient='index', columns=['Terms', 'POS', 'guess','Count'])
